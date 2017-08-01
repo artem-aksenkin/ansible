@@ -40,7 +40,7 @@
   - name: Copy Tomcat to destination location
     shell: |
       cp -R /home/vagrant/apache-tomcat-{{tomcat_version}}/* /opt/tomcat/{{tomcat_version}}
-     chown -R tomcat:tomcat /opt/tomcat/{{tomcat_version}}
+      chown -R tomcat:tomcat /opt/tomcat/{{tomcat_version}}
 
   - name: Install Tomcat unit script
     copy: src=tomcat.service dest=/etc/systemd/system/tomcat.service mode=0755
@@ -58,7 +58,7 @@
   tasks:
 
    - name: Check http response status
-     shell: curl -IL http://127.0.0.1:8080
+     shell: curl -LI http://127.0.0.1:8080
 
    - name : Check Tomcat service
      shell: systemctl status tomcat
