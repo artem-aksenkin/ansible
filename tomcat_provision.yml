@@ -13,9 +13,6 @@
 
   tasks:
 
-  - name: switch to superuser
-    command: sudo su
- 
   - name: Install Java 1.8
     yum: name={{java_version}} state=present
     
@@ -30,17 +27,13 @@
       mkdir -p /opt/tomcat/{{tomcat_version}} 
       chown -R tomcat:tomcat /opt/tomcat/{{tomcat_version}}
       chmod -R a+wx /opt/tomcat/{{tomcat_version}}
-      mkdir -p /usr/share/tomcat/conf/
-      chown -R tomcat:tomcat /usr/share/tomcat/conf/
 
   - name: Download Tomcat
     get_url: url=http://ftp.byfly.by/pub/apache.org/tomcat/tomcat-8/v{{tomcat_version}}/bin/apache-tomcat-{{tomcat_version}}.tar.gz dest=/opt/tomcat/apache-tomcat-{{tomcat_version}}.tar.gz
     
   - name: Extract archive
-    command: chdir=/usr/share /bin/tar xvf /opt/tomcat/apache-tomcat-{{tomcat_version}}.tar.gz -C /opt/tomcat/{{tomcat_version}} creates=/opt/tomcat/{{tomcat_version}}
+    command: chdir=/opt/tomcat/{{tomcat_version}} /bin/tar xvf /opt/tomcat/apache-tomcat-{{tomcat_version}}.tar.gz -C /opt/tomcat/{{tomcat_version}} creates=/opt/tomcat/{{tomcat_version}}
 
-  - name: Symlink install directory
-    file: src=/opt/tomcat/{{tomcat_version}} path=/usr/share/tomcat state=link
 
   - name: Change ownership of Tomcat installation
     file: path=/usr/share/tomcat/ owner=tomcat group=tomcat state=directory recurse=yes
