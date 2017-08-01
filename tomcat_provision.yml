@@ -31,7 +31,7 @@
     get_url: url=http://ftp.byfly.by/pub/apache.org/tomcat/tomcat-8/v{{tomcat_version}}/bin/apache-tomcat-{{tomcat_version}}.tar.gz dest=/opt/tomcat/apache-tomcat-{{tomcat_version}}.tar.gz
     
   - name: Extract archive
-    command: chdir=/opt/tomcat/ /bin/tar xvf /opt/tomcat/apache-tomcat-{{tomcat_version}}.tar.gz -C /opt/tomcat/{{tomcat_version}}
+    command: chdir=/opt/tomcat/ /bin/tar xvf /opt/tomcat/apache-tomcat-{{tomcat_version}}.tar.gz -C /opt/tomcat/{{tomcat_version}} mv 8.5.16/apache-tomcat-8.5.16/* 8.5.16/
 
   - name: Configure Tomcat server
     template: src=server.xml dest=/opt/tomcat/{{tomcat_version}}/conf/
