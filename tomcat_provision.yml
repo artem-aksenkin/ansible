@@ -1,0 +1,72 @@
+---
+- hosts: all
+  vars:
+    java_version: java-1.8.0-openjdk.x86_64
+    tomcat_version: 8.5.16
+    http_port: 8080
+    https_port: 8443
+    admin_username: admin
+    admin_password: tomcat
+  
+  become: True
+  become_method: sudo
+
+  tasks:
+
+  - name: switch to superuser
+    command: sudo su
+ 
+  - name: Install Java 1.8
+    yum: name={{java_version}} state=present
+    
+  - name: add group "tomcat"
+    group: name=tomcat
+    
+  - name: add user "tomcat"
+    user: name=tomcat group=tomcat home=/usr/share/tomcat createhome=no
+ 
+  - name: preparing for Tomcat landing
+    shell: | 
+      mkdir -p /opt/tomcat/{{tomcat_version}} 
+      chown -R tomcat:tomcat /opt/tomcat/{{tomcat_version}}
+      chmod -R a+wx /opt/tomcat/{{tomcat_version}}
+      mkdir -p /usr/share/tomcat/conf/
+      chown -R tomcat:tomcat /usr/share/tomcat/conf/
+
+  - name: Download Tomcat
+    get_url: url=http://ftp.byfly.by/pub/apache.org/tomcat/tomcat-8/v{{tomcat_version}}/bin/apache-tomcat-{{tomcat_version}}.tar.gz dest=/opt/tomcat/apache-tomcat-{{tomcat_version}}.tar.gz
+    
+  - name: Extract archive
+    command: chdir=/usr/share /bin/tar xvf /opt/tomcat/apache-tomcat-{{tomcat_version}}.tar.gz -C /opt/tomcat/{{tomcat_version}} creates=/opt/tomcat/{{tomcat_version}}
+
+  - name: Symlink install directory
+    file: src=/opt/tomcat/{{tomcat_version}} path=/usr/share/tomcat state=link
+
+  - name: Change ownership of Tomcat installation
+    file: path=/usr/share/tomcat/ owner=tomcat group=tomcat state=directory recurse=yes
+
+  - name: Configure Tomcat server
+    template: src=server.xml dest=/usr/share/tomcat/conf/
+    notify: restart tomcat
+
+  - name: Configure Tomcat users
+    template: src=tomcat-users.xml dest=/usr/share/tomcat/conf/
+    notify: restart tomcat
+
+  - name: Install Tomcat unit script
+    copy: src=tomcat.service dest=/etc/systemd/system/tomcat.service mode=0755
+
+  - name: ensure Tomcat is running (and enable it at boot)
+    service: name=tomcat state=started enabled=yes
+
+  - name: wait for tomcat to start
+    wait_for: port={{http_port}}
+    delegate_to: localhost
+
+
+  handlers: 
+    - name: restart tomcat
+      service: name=tomcat state=restarted
+
+  
+
