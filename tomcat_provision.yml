@@ -34,16 +34,12 @@
   - name: Extract archive
     command: chdir=/opt/tomcat/{{tomcat_version}} /bin/tar xvf /opt/tomcat/apache-tomcat-{{tomcat_version}}.tar.gz -C /opt/tomcat/{{tomcat_version}} creates=/opt/tomcat/{{tomcat_version}}
 
-
-  - name: Change ownership of Tomcat installation
-    file: path=/usr/share/tomcat/ owner=tomcat group=tomcat state=directory recurse=yes
-
   - name: Configure Tomcat server
-    template: src=server.xml dest=/usr/share/tomcat/conf/
+    template: src=server.xml dest=/opt/tomcat/{{tomcat_version}}/conf/
     notify: restart tomcat
 
   - name: Configure Tomcat users
-    template: src=tomcat-users.xml dest=/usr/share/tomcat/conf/
+    template: src=tomcat-users.xml dest=/opt/tomcat/{{tomcat_version}}/conf/
     notify: restart tomcat
 
   - name: Install Tomcat unit script
