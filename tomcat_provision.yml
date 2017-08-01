@@ -40,14 +40,6 @@
   - name: Copy Tomcat to destination location
     shell: cp -R /home/vagrant/apache-tomcat-{{tomcat_version}}/* /opt/tomcat/{{tomcat_version}}
 
-  - name: Configure Tomcat server
-    template: src=server.xml dest=/opt/tomcat/{{tomcat_version}}/conf/
-    notify: restart tomcat
-
-  - name: Configure Tomcat users
-    template: src=tomcat-users.xml dest=/opt/tomcat/{{tomcat_version}}/conf/
-    notify: restart tomcat
-
   - name: Install Tomcat unit script
     copy: src=tomcat.service dest=/etc/systemd/system/tomcat.service mode=0755
 
@@ -58,10 +50,31 @@
     wait_for: port={{http_port}}
     delegate_to: localhost
 
+- name: Checks for running
+  hosts: default
 
-  handlers: 
-    - name: restart tomcat
-      service: name=tomcat state=restarted
+  tasks:
+
+   - name: Check http response status
+     shell: curl -IL http://127.0.0.1:8080
+
+   - name : Check Tomcat service
+     shell: systemctl status tomcat
+
+   - name: Process existing check
+     shell: ps -ef | grep tomcat
+
+   - uri:
+       url: http://127.0.0.1:8080
+       return_content: yes
+     register: webpage
+
+   - name: Fail if Tomcat is not in the page content
+     fail:
+       msg: 'Fail "Tomcat" is not in the page content'
+     when: "'Tomcat' not in webpage.content"
+
+
 
   
 
