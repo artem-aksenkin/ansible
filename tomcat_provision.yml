@@ -38,7 +38,7 @@
       remote_src: yes
 
   - name: Copy Tomcat to destination location
-    copy: src=/home/vagrant/apache-tomcat-{{tomcat_version}}/* dest=/opt/tomcat/{{tomcat_version}}
+    shell: cp -R /home/vagrant/apache-tomcat-{{tomcat_version}}/* /opt/tomcat/{{tomcat_version}}
 
   - name: Configure Tomcat server
     template: src=server.xml dest=/opt/tomcat/{{tomcat_version}}/conf/
