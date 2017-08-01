@@ -40,7 +40,7 @@
   - name: Copy Tomcat to destination location
     shell: |
       cp -R /home/vagrant/apache-tomcat-{{tomcat_version}}/* /opt/tomcat/{{tomcat_version}}
-      chown -R tomcat:tomcat /opt/tomcat/{{tomcat_version}}
+     chown -R tomcat:tomcat /opt/tomcat/{{tomcat_version}}
 
   - name: Install Tomcat unit script
     copy: src=tomcat.service dest=/etc/systemd/system/tomcat.service mode=0755
