@@ -13,7 +13,6 @@ Environment=CATALINA_BASE=/opt/tomcat/{tomcat_version}
 ExecStart=/opt/tomcat/{tomcat_version}/bin/startup.sh
 ExecStop=/bin/kill -15 $MAINPID
 
-
 User=tomcat
 Group=tomcat
 
