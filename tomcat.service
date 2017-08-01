@@ -6,11 +6,11 @@ After=syslog.target network.target
 [Service]
 Type=forking
 
-Environment=CATALINA_PID=/opt/tomcat/{tomcat_version}/temp/tomcat.pid
-Environment=CATALINA_HOME=/opt/tomcat/{tomcat_version}
-Environment=CATALINA_BASE=/opt/tomcat/{tomcat_version}
+Environment=CATALINA_PID=/opt/tomcat/8.5.16/temp/tomcat.pid
+Environment=CATALINA_HOME=/opt/tomcat/8.5.16
+Environment=CATALINA_BASE=/opt/tomcat/8.5.16
 
-ExecStart=/opt/tomcat/{tomcat_version}/bin/startup.sh
+ExecStart=/opt/tomcat/8.5.16/bin/startup.sh
 ExecStop=/bin/kill -15 $MAINPID
 
 User=tomcat
