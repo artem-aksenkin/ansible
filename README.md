@@ -47,7 +47,7 @@ Tomcat AS version should be 8.x
 Tomcat installation folder (CATALINA_HOME) is /opt/tomcat/$version, where $version is the version of tomcat defined in playbook
 Java can be installed from CentOS Repositories
 
-# 8. Verification Procedure: playbook will be checked by instructor’s CI system as follows:
+8. Verification Procedure: playbook will be checked by instructor’s CI system as follows:
 
 8.1 Connect to student’s host by ssh (username “student”) with own ssh key.
 
