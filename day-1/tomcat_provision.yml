@@ -58,7 +58,7 @@
   tasks:
 
    - name: Check http response status
-     shell: curl -LI http://127.0.0.1:8080
+     shell: curl -LI http://127.0.0.1:8088
 
    - name : Check Tomcat service
      shell: systemctl status tomcat
