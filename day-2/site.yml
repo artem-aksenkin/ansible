@@ -5,3 +5,5 @@
   become_method: sudo
   roles:
     - java
+    - tomcat
+    - nginx
