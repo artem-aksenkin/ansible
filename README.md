@@ -20,20 +20,20 @@ Total RAM
 <img src="resources/Screenshot from 2017-08-02 09-03-47.png">
 6. Develop a playbook (name: tomcat_provision.yml) which is supposed to run against any host (specified in inventory)
 Use following modules (at least):
-copy
-file
-get_url
-group
-service
-shell
-unarchive
-user
-yum
+-copy
+-file
+-get_url
+-group
+-service
+-shell
+-unarchive
+-user
+-yum
 Define play variables (at least):
-tomcat_version
-java_version
+-tomcat_version
+-java_version
 Every task should have a name section with details of task purpose.
-Examples:
+-Examples:
 name: Ensure user student exists
 name: Fetch artifact form the Shared repository
 Ensure tomcat is up and running properly with module “shell” (at least 3 different checks).
@@ -44,7 +44,7 @@ Tomcat AS should be owned (and run) by user tomcat_as:tomcat_as_group
 Tomcat AS version should be 8.x
 Tomcat installation folder (CATALINA_HOME) is /opt/tomcat/$version, where $version is the version of tomcat defined in playbook
 Java can be installed from CentOS Repositories
-8. Verification Procedure: playbook will be checked by instructor’s CI system as follows:
+#8. Verification Procedure: playbook will be checked by instructor’s CI system as follows:
 8.1 Connect to student’s host by ssh (username “student”) with own ssh key.
 8.2 Check the version of ansible installed on the system (as mentioned in point 1)
 8.3 Go into the folder mentioned in point 2
